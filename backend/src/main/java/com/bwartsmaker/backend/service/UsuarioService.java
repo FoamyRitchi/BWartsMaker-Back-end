@@ -1,16 +1,13 @@
 package com.bwartsmaker.backend.service;
 
 // Importa as classes "UsuarioEntity" e "UsuarioRepository" para serem usadas no serviço de usuário
-import com.bwartsmaker.backend.entity.UsuarioEntity;
-import com.bwartsmaker.backend.repository.UsuarioRepository;
+import java.util.List;
 
-// Importa as dependências necessárias para o serviço de usuário
 import org.springframework.beans.factory.annotation.Autowired;
-
-// Importa a anotação @Service para marcar esta classe como um serviço do Spring
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.bwartsmaker.backend.entity.UsuarioEntity;
+import com.bwartsmaker.backend.repository.UsuarioRepository;
 
 @Service
 
@@ -36,7 +33,17 @@ public class UsuarioService {
     public UsuarioEntity atualizarUsuario(Long id, UsuarioEntity usuarioAtualizado) {
         UsuarioEntity usuarioExistente = buscarPorId(id);
 
-        
+        usuarioExistente.setNome_user(usuarioAtualizado.getNome_user());
+        usuarioExistente.setEmail_user(usuarioAtualizado.getEmail_user());
+        usuarioExistente.setDataNasc_user(usuarioAtualizado.getDataNasc_user());
+        usuarioExistente.setCpf_user(usuarioAtualizado.getCpf_user());
+
+        return usuarioRepository.save(usuarioExistente);
+    }
+
+    public void deletarUsuario(Long id) {
+        UsuarioEntity usuarioExistente = buscarPorId(id);
+        usuarioRepository.delete(usuarioExistente);
     }
     
 }
