@@ -32,5 +32,11 @@ public class UsuarioService {
     public UsuarioEntity buscarPorId(Long id) {
         return usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado com o id: " + id));
     }
+
+    public UsuarioEntity atualizarUsuario(Long id, UsuarioEntity usuarioAtualizado) {
+        UsuarioEntity usuarioExistente = buscarPorId(id);
+
+        
+    }
     
 }
