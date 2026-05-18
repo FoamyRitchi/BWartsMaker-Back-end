@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import jakarta.persistence.CascadeType;
 
 
 @Data
@@ -37,7 +38,11 @@ public class UsuarioEntity {
     @Column(nullable = false)
     private Long cpf_user;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_endereco", referencedColumnName = "id_endereco")
     private EnderecoEntity endereco;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_telefone", referencedColumnName = "id_telefone")
+    private TelefoneEntity telefone;
 }
