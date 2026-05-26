@@ -16,16 +16,10 @@ public class CorsConfig {
 
         CorsConfiguration config = new CorsConfiguration();
 
-        // =========================
-        // ORIGENS PERMITIDAS
-        // =========================
+        // ORIGENS
         config.setAllowedOriginPatterns(List.of("*"));
-        // Em produção: substitua por domínio real
-        // ex: https://meusite.com
 
-        // =========================
-        // MÉTODOS HTTP
-        // =========================
+        // MÉTODOS
         config.setAllowedMethods(List.of(
                 "GET",
                 "POST",
@@ -35,19 +29,13 @@ public class CorsConfig {
                 "PATCH"
         ));
 
-        // =========================
         // HEADERS
-        // =========================
         config.setAllowedHeaders(List.of("*"));
 
-        // =========================
-        // CREDENCIAIS (cookies, auth)
-        // =========================
+        // CREDENCIAIS
         config.setAllowCredentials(false);
 
-        // =========================
-        // CACHE DO PRE-FLIGHT
-        // =========================
+        // CACHE PRE-FLIGHT
         config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source =
