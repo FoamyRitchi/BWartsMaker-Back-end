@@ -36,7 +36,7 @@ public class UsuarioEntity {
     private Date dataNasc_user;
 
     @Column(nullable = false)
-    private Long cpf_user;
+    private String cpf_user;
 
     @Column(nullable = false)
     private String senha_user;

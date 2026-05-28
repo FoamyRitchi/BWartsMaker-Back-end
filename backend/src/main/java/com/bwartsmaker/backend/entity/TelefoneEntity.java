@@ -13,10 +13,10 @@ public class TelefoneEntity {
     private Long id_telefone;
 
     @Column(nullable = false)
-    private int ddd_telefone;
+    private String ddd_telefone;
     
     @Column(nullable = false)
-    private Long numero_telefone;
+    private String numero_telefone;
 
     
 }

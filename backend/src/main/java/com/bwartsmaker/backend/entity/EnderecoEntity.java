@@ -25,7 +25,7 @@ public class EnderecoEntity {
     private int numero_endereco;
 
     @Column(nullable = false)
-    private Long cep_endereco;
+    private String cep_endereco;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_rua")
