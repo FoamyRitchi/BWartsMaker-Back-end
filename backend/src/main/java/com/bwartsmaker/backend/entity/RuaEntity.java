@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.GenerationType;
+
 import lombok.Data;
 
 @Data
@@ -12,7 +14,8 @@ import lombok.Data;
 
 public class RuaEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id_rua;
 
     @Column(nullable = false)
     private String nome_rua;
