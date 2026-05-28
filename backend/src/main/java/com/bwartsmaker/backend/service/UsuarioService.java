@@ -71,6 +71,7 @@ public class UsuarioService {
         usuarioExistente.setEmail_user(usuarioAtualizado.getEmail_user());
         usuarioExistente.setDataNasc_user(usuarioAtualizado.getDataNasc_user());
         usuarioExistente.setCpf_user(usuarioAtualizado.getCpf_user());
+        usuarioExistente.setSenha_user(usuarioAtualizado.getSenha_user());
 
         // =========================
         // Atualiza endereço

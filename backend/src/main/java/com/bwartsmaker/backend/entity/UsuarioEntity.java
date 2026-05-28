@@ -38,6 +38,9 @@ public class UsuarioEntity {
     @Column(nullable = false)
     private Long cpf_user;
 
+    @Column(nullable = false)
+    private String senha_user;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_endereco", referencedColumnName = "id_endereco")
     private EnderecoEntity endereco;
