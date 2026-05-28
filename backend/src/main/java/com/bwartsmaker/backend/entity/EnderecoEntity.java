@@ -1,5 +1,6 @@
 package com.bwartsmaker.backend.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,19 +27,19 @@ public class EnderecoEntity {
     @Column(nullable = false)
     private Long cep_endereco;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_rua")
     private RuaEntity rua;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_bairro")
     private BairroEntity bairro;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)   
     @JoinColumn(name = "id_cidade")
     private CidadeEntity cidade;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_estado")
     private EstadoEntity estado;
 
