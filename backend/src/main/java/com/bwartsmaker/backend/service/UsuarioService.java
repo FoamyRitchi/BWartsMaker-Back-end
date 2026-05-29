@@ -56,6 +56,10 @@ public class UsuarioService {
                 );
     }
 
+    public UsuarioEntity autenticar(String email, String senha) {
+        return usuarioRepository.findByEmailUserAndSenhaUser(email, senha).orElse(null);
+    }
+
     // =========================
     // ATUALIZAR USUÁRIO
     // =========================

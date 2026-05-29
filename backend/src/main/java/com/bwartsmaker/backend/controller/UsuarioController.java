@@ -1,16 +1,10 @@
 package com.bwartsmaker.backend.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.bwartsmaker.backend.entity.UsuarioEntity;
 import com.bwartsmaker.backend.service.UsuarioService;
@@ -24,7 +18,7 @@ public class UsuarioController {
 
     @GetMapping
     public List<UsuarioEntity> getAllUsuarios() {
-        return usuarioService.listarTodosUsuarios();    
+        return usuarioService.listarTodosUsuarios();
     }
 
     @GetMapping("/{id}")
@@ -37,8 +31,20 @@ public class UsuarioController {
         return usuarioService.criarUsuario(usuario);
     }
 
+    @PostMapping("/login")
+    public UsuarioEntity login(@RequestBody Map<String, String> dados) {
+
+        return usuarioService.autenticar (
+            dados.get("email_user"),
+            dados.get("senha_user")
+        );
+    }
+
     @PutMapping("/{id}")
-    public UsuarioEntity updateUsuario(@PathVariable Long id, @RequestBody UsuarioEntity usuario) {
+    public UsuarioEntity updateUsuario(
+            @PathVariable Long id,
+            @RequestBody UsuarioEntity usuario) {
+
         return usuarioService.atualizarUsuario(id, usuario);
     }
 
