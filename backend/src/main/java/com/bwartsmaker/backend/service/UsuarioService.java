@@ -57,7 +57,7 @@ public class UsuarioService {
     }
 
     public UsuarioEntity autenticar(String email, String senha) {
-        return usuarioRepository.findByEmail_userAndSenha_user(email, senha).orElse(null);
+        return usuarioRepository.autenticar(email, senha).orElse(null);
     }
 
     // =========================
