@@ -22,17 +22,11 @@ public class ProdutoController {
     @Autowired
     private ProdutoService produtoService;
 
-    // =========================
-    // LISTAR TODOS
-    // =========================
     @GetMapping
     public List<ProdutoEntity> getAllProdutos() {
         return produtoService.listarTodosProdutos();
     }
 
-    // =========================
-    // BUSCAR POR ID
-    // =========================
     @GetMapping("/{id}")
     public ProdutoEntity getProdutoById(
             @PathVariable Long id) {
@@ -40,9 +34,6 @@ public class ProdutoController {
         return produtoService.buscarPorId(id);
     }
 
-    // =========================
-    // CADASTRAR SEM IMAGEM
-    // =========================
     @PostMapping
     public ProdutoEntity createProduto(
             @RequestBody ProdutoEntity produto) {
@@ -50,9 +41,6 @@ public class ProdutoController {
         return produtoService.criarProduto(produto);
     }
 
-    // =========================
-    // CADASTRAR COM IMAGEM
-    // =========================
     @PostMapping(
         value = "/com-imagem",
         consumes = MediaType.MULTIPART_FORM_DATA_VALUE
@@ -69,42 +57,71 @@ public class ProdutoController {
 
             @RequestParam("frete_prod") Double frete,
 
-            @RequestParam("imagem") MultipartFile imagem) {
+            @RequestParam(value = "imagem", required = false)
+            MultipartFile imagem) {
 
         try {
+
+            System.out.println("========== NOVO PRODUTO ==========");
+
+            System.out.println("Nome: " + nome);
+            System.out.println("Descrição: " + descricao);
+            System.out.println("Quantidade: " + quantidade);
+            System.out.println("Valor: " + valor);
+            System.out.println("Frete: " + frete);
+
+            if (imagem == null) {
+
+                System.out.println("Imagem recebida: NULL");
+
+            } else {
+
+                System.out.println("Imagem recebida: "
+                        + imagem.getOriginalFilename());
+
+                System.out.println("Tamanho arquivo: "
+                        + imagem.getSize());
+
+                System.out.println("Está vazia? "
+                        + imagem.isEmpty());
+            }
 
             String caminhoImagem = "";
 
             if (imagem != null && !imagem.isEmpty()) {
 
-                String pastaUpload = "uploads/";
+                String pastaUpload = "uploads";
 
                 Files.createDirectories(
-                    Paths.get(pastaUpload)
-                );
+                        Paths.get(pastaUpload));
 
                 String nomeArquivo =
-                    System.currentTimeMillis()
-                    + "_"
-                    + imagem.getOriginalFilename();
+                        System.currentTimeMillis()
+                        + "_"
+                        + imagem.getOriginalFilename();
 
                 Path caminhoArquivo =
-                    Paths.get(
-                        pastaUpload,
-                        nomeArquivo
-                    );
+                        Paths.get(
+                                pastaUpload,
+                                nomeArquivo
+                        );
 
                 Files.write(
-                    caminhoArquivo,
-                    imagem.getBytes()
+                        caminhoArquivo,
+                        imagem.getBytes()
                 );
 
                 caminhoImagem =
-                    "/uploads/" + nomeArquivo;
+                        "/uploads/" + nomeArquivo;
+
+                System.out.println(
+                        "Imagem salva em: "
+                        + caminhoImagem
+                );
             }
 
             ProdutoEntity produto =
-                new ProdutoEntity();
+                    new ProdutoEntity();
 
             produto.setNome_prod(nome);
             produto.setDesc_prod(descricao);
@@ -113,33 +130,47 @@ public class ProdutoController {
             produto.setFrete_prod(frete);
             produto.setImg_prod(caminhoImagem);
 
-            return produtoService
-                    .criarProduto(produto);
+            ProdutoEntity produtoSalvo =
+                    produtoService.criarProduto(produto);
+
+            System.out.println(
+                    "Produto salvo com ID: "
+                    + produtoSalvo.getId_prod()
+            );
+
+            System.out.println(
+                    "Campo img_prod salvo: "
+                    + produtoSalvo.getImg_prod()
+            );
+
+            System.out.println(
+                    "=================================="
+            );
+
+            return produtoSalvo;
 
         } catch (IOException e) {
 
+            e.printStackTrace();
+
             throw new RuntimeException(
-                "Erro ao salvar imagem.",
-                e
+                    "Erro ao salvar imagem.",
+                    e
             );
         }
     }
 
-    // =========================
-    // ATUALIZAR
-    // =========================
     @PutMapping("/{id}")
     public ProdutoEntity updateProduto(
             @PathVariable Long id,
             @RequestBody ProdutoEntity produto) {
 
-        return produtoService
-                .atualizarProduto(id, produto);
+        return produtoService.atualizarProduto(
+                id,
+                produto
+        );
     }
 
-    // =========================
-    // DELETAR
-    // =========================
     @DeleteMapping("/{id}")
     public void deleteProduto(
             @PathVariable Long id) {
