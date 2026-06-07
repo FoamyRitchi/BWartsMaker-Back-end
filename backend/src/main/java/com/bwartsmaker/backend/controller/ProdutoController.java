@@ -47,118 +47,134 @@ public class ProdutoController {
     )
     public ProdutoEntity cadastrarProdutoComImagem(
 
-            @RequestParam("nome_prod") String nome,
+        @RequestParam("nome_prod") String nome,
 
-            @RequestParam("desc_prod") String descricao,
+        @RequestParam("desc_prod") String descricao,
 
-            @RequestParam("qntd_prod") Integer quantidade,
+        @RequestParam("qntd_prod") Integer quantidade,
 
-            @RequestParam("valor_prod") Double valor,
+        @RequestParam("valor_prod") Double valor,
 
-            @RequestParam("frete_prod") Double frete,
+        @RequestParam("frete_prod") Double frete,
 
-            @RequestParam(value = "imagem", required = false)
-            MultipartFile imagem) {
+        @RequestParam("categoria_prod") String categoria,
 
-        try {
+        @RequestParam(value = "imagem", required = false)
+        MultipartFile imagem) {
 
-            System.out.println("========== NOVO PRODUTO ==========");
+    try {
 
-            System.out.println("Nome: " + nome);
-            System.out.println("Descrição: " + descricao);
-            System.out.println("Quantidade: " + quantidade);
-            System.out.println("Valor: " + valor);
-            System.out.println("Frete: " + frete);
+        System.out.println("========== NOVO PRODUTO ==========");
 
-            if (imagem == null) {
+        System.out.println("Nome: " + nome);
+        System.out.println("Descrição: " + descricao);
+        System.out.println("Quantidade: " + quantidade);
+        System.out.println("Valor: " + valor);
+        System.out.println("Frete: " + frete);
+        System.out.println("Categoria: " + categoria);
 
-                System.out.println("Imagem recebida: NULL");
+        if (imagem == null) {
 
-            } else {
+            System.out.println("Imagem recebida: NULL");
 
-                System.out.println("Imagem recebida: "
-                        + imagem.getOriginalFilename());
-
-                System.out.println("Tamanho arquivo: "
-                        + imagem.getSize());
-
-                System.out.println("Está vazia? "
-                        + imagem.isEmpty());
-            }
-
-            String caminhoImagem = "";
-
-            if (imagem != null && !imagem.isEmpty()) {
-
-                String pastaUpload = "uploads";
-
-                Files.createDirectories(
-                        Paths.get(pastaUpload));
-
-                String nomeArquivo =
-                        System.currentTimeMillis()
-                        + "_"
-                        + imagem.getOriginalFilename();
-
-                Path caminhoArquivo =
-                        Paths.get(
-                                pastaUpload,
-                                nomeArquivo
-                        );
-
-                Files.write(
-                        caminhoArquivo,
-                        imagem.getBytes()
-                );
-
-                caminhoImagem =
-                        "/uploads/" + nomeArquivo;
-
-                System.out.println(
-                        "Imagem salva em: "
-                        + caminhoImagem
-                );
-            }
-
-            ProdutoEntity produto =
-                    new ProdutoEntity();
-
-            produto.setNome_prod(nome);
-            produto.setDesc_prod(descricao);
-            produto.setQntd_prod(quantidade);
-            produto.setValor_prod(valor);
-            produto.setFrete_prod(frete);
-            produto.setImg_prod(caminhoImagem);
-
-            ProdutoEntity produtoSalvo =
-                    produtoService.criarProduto(produto);
+        } else {
 
             System.out.println(
-                    "Produto salvo com ID: "
-                    + produtoSalvo.getId_prod()
+                "Imagem recebida: "
+                + imagem.getOriginalFilename()
             );
 
             System.out.println(
-                    "Campo img_prod salvo: "
-                    + produtoSalvo.getImg_prod()
+                "Tamanho arquivo: "
+                + imagem.getSize()
             );
 
             System.out.println(
-                    "=================================="
-            );
-
-            return produtoSalvo;
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-
-            throw new RuntimeException(
-                    "Erro ao salvar imagem.",
-                    e
+                "Está vazia? "
+                + imagem.isEmpty()
             );
         }
+
+        String caminhoImagem = "";
+
+        if (imagem != null && !imagem.isEmpty()) {
+
+            String pastaUpload = "uploads";
+
+            Files.createDirectories(
+                Paths.get(pastaUpload)
+            );
+
+            String nomeArquivo =
+                System.currentTimeMillis()
+                + "_"
+                + imagem.getOriginalFilename();
+
+            Path caminhoArquivo =
+                Paths.get(
+                    pastaUpload,
+                    nomeArquivo
+                );
+
+            Files.write(
+                caminhoArquivo,
+                imagem.getBytes()
+            );
+
+            caminhoImagem =
+                "/uploads/" + nomeArquivo;
+
+            System.out.println(
+                "Imagem salva em: "
+                + caminhoImagem
+            );
+        }
+
+        ProdutoEntity produto =
+            new ProdutoEntity();
+
+        produto.setNome_prod(nome);
+        produto.setDesc_prod(descricao);
+        produto.setQntd_prod(quantidade);
+        produto.setValor_prod(valor);
+        produto.setFrete_prod(frete);
+        produto.setCategoria_prod(categoria);
+        produto.setImg_prod(caminhoImagem);
+
+        ProdutoEntity produtoSalvo =
+            produtoService.criarProduto(produto);
+
+        System.out.println(
+            "Produto salvo com ID: "
+            + produtoSalvo.getId_prod()
+        );
+
+        System.out.println(
+            "Campo img_prod salvo: "
+            + produtoSalvo.getImg_prod()
+        );
+
+        System.out.println(
+            "Categoria salva: "
+            + produtoSalvo.getCategoria_prod()
+        );
+
+        System.out.println(
+            "=================================="
+        );
+
+        return produtoSalvo;
+
+    } catch (IOException e) {
+
+        e.printStackTrace();
+
+        throw new RuntimeException(
+            "Erro ao salvar imagem.",
+            e
+        );
     }
+}
 
     @PutMapping("/{id}")
     public ProdutoEntity updateProduto(
